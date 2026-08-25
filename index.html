@@ -119,7 +119,43 @@ function update(dt){
 }
 function end(){running=false;controls.unlock();let best=Math.max(+localStorage.getItem("forwarBest")||0,score);localStorage.setItem("forwarBest",best);ui("final").textContent=score;ui("best").textContent=best;ui("over").classList.remove("hidden");}
 function animate(){requestAnimationFrame(animate);let dt=Math.min(clock.getDelta(),.05);update(dt);renderer.render(scene,camera)}
-ui("start").onclick=()=>{ui("menu").classList.add("hidden");ui("hud").style.display="block";running=true;controls.lock();show("WAVE 1");for(let i=0;i<5;i++)setTimeout(()=>spawnEnemy(),i*350)};
+ui("start").addEventListener("click", function () {
+
+  console.log("Starting FORWAR...");
+
+  // Hide menu
+  ui("menu").classList.add("hidden");
+
+  // Show game HUD
+  ui("hud").style.display = "block";
+
+  // Start game
+  running = true;
+
+  health = 100;
+  score = 0;
+  kills = 0;
+  wave = 1;
+  ammo = 30;
+  reserve = 120;
+
+  updateUI();
+
+  // Lock mouse for FPS controls
+  if (controls) {
+    controls.lock();
+  }
+
+  show("WAVE 1");
+
+  // Spawn enemies
+  for (let i = 0; i < 5; i++) {
+    setTimeout(function () {
+      spawnEnemy(false);
+    }, i * 500);
+  }
+
+});
 init();
 </script>
 </body></html>
